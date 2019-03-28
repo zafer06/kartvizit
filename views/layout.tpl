@@ -32,6 +32,9 @@
     <div class="menu">
         <a href="/">{{ i18n .Lang "home" }}</a>
         <a href="/login">{{ i18n .Lang "login" }}</a>
+        {{ if .IsLogin }}
+            <a href="/logout">{{ i18n .Lang "logout" }}</a>
+        {{ end }}
         </div>
   </header>
 

@@ -13,6 +13,8 @@ var langTypes []string
 type BaseController struct {
 	beego.Controller
 	i18n.Locale
+	IsLogin bool
+	UserID  int
 }
 
 // Prepare function
@@ -20,14 +22,10 @@ func (c *BaseController) Prepare() {
 	var lang string
 	var hasCookie = false
 
-	beego.Trace("Running Prepare")
-	beego.Info("-->", lang)
-
 	// 2. Get language information from cookies.
 	if len(lang) == 0 {
 		lang = c.Ctx.GetCookie("kartvizit_lang")
 		hasCookie = true
-		beego.Info("///-->", lang)
 	}
 
 	if !i18n.IsExist(lang) {
@@ -51,9 +49,15 @@ func (c *BaseController) Prepare() {
 		}
 		beego.Trace("Accept-Language is ", al)
 	}
-
 	c.Lang = lang
+	if l := c.GetSession("isLogin"); l != nil {
+		c.IsLogin = c.GetSession("isLogin").(bool)
+	}
+
+	beego.Info("Session IsLogin: ", c.IsLogin)
+
 	c.Data["Lang"] = lang
+	c.Data["IsLogin"] = c.IsLogin
 }
 
 func init() {

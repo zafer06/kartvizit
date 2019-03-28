@@ -15,7 +15,7 @@ type Card struct {
 	Phone    string    `orm:"size(20)"`
 	Mobile   string    `orm:"size(20)"`
 	Created  time.Time `orm:"auto_now_add;type(datetime)"`
-	Modified time.Time `orm:"now_add;type(datetime)"`
+	Modified time.Time `orm:"auto_now;type(datetime)"`
 	User     *User     `orm:"rel(fk)"`
 }
 
