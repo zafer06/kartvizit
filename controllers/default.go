@@ -5,8 +5,10 @@ import (
 	"strings"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 )
 
+// MainController struct
 type MainController struct {
 	BaseController
 }
@@ -23,16 +25,16 @@ func (c *MainController) Login() {
 	if c.Ctx.Input.IsPost() {
 		var email = strings.TrimSpace(c.GetString("email"))
 		var password = strings.TrimSpace(c.GetString("password"))
-		beego.Info(email)
+		logs.Info(email)
 		var flash = beego.NewFlash()
 
 		hash, _ := models.GenerateFromPassword(password)
-		beego.Info("----> ", string(hash))
+		logs.Info("----> ", string(hash))
 
 		if email != "" && password != "" {
 			user, err := models.GetUserByEmail(email)
-			beego.Info(user)
-			beego.Info(err)
+			logs.Info(user)
+			logs.Info(err)
 
 			match, err := models.ComparePasswordAndHash(password, user.Password)
 			if err == nil && match {
@@ -44,7 +46,7 @@ func (c *MainController) Login() {
 				flash.Store(&c.Controller)
 			}
 		} else {
-			beego.Info("empty")
+			logs.Info("empty")
 			flash.Error(c.Tr("loginErrorEmpty"))
 			flash.Store(&c.Controller)
 		}
@@ -57,6 +59,7 @@ func (c *MainController) Login() {
 	}
 }
 
+// Logout function
 func (c *MainController) Logout() {
 	c.DelSession("isLogin")
 	c.Redirect("/", 302)

@@ -6,6 +6,7 @@ import (
 	_ "github.com/lib/pq"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/session"
 )
@@ -31,7 +32,7 @@ func main() {
 	beego.GlobalSessions, _ = session.NewManager("memory", sessionconf)
 	go beego.GlobalSessions.GC()
 
-	beego.SetLogger("file", `{"filename":"app_log.log"}`)
+	logs.SetLogger("file", `{"filename":"app_log.log"}`)
 
 	beego.Run()
 }

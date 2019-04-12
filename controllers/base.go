@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"github.com/beego/i18n"
 )
 
@@ -47,7 +48,7 @@ func (c *BaseController) Prepare() {
 				lang = al
 			}
 		}
-		beego.Trace("Accept-Language is ", al)
+		logs.Trace("Accept-Language is ", al)
 	}
 	c.Lang = lang
 	if l := c.GetSession("isLogin"); l != nil {
@@ -66,9 +67,9 @@ func init() {
 	langTypes = strings.Split(beego.AppConfig.String("langtypes"), "|")
 
 	for _, lang := range langTypes {
-		beego.Trace("Loading language: ", lang)
+		logs.Trace("Loading language: ", lang)
 		if err := i18n.SetMessage(lang, "conf/locale_"+lang+".ini"); err != nil {
-			beego.Error("Fail to set message file: ", err)
+			logs.Error("Fail to set message file: ", err)
 			return
 		}
 	}
