@@ -19,15 +19,16 @@ var (
 )
 
 type (
+	// User struct
 	User struct {
-		ID       int       `orm:"auto;column(id)"`
-		Email    string    `orm:"size(150)"`
-		Password string    `orm:"size(150)"`
-		Name     string    `orm:"size(150)"`
-		Surname  string    `orm:"size(150)"`
-		Created  time.Time `orm:"auto_now_add;type(datetime)"`
-		Modified time.Time `orm:"auto_now;type(datetime)"`
-		Cards    []*Card   `orm:"reverse(many)"`
+		ID        int       `orm:"auto;column(id)"`
+		Email     string    `orm:"size(150)"`
+		Password  string    `orm:"size(150)"`
+		FirstName string    `orm:"size(150)"`
+		LastName  string    `orm:"size(150)"`
+		Created   time.Time `orm:"auto_now_add;type(datetime)"`
+		Modified  time.Time `orm:"auto_now;type(datetime)"`
+		Cards     []*Card   `orm:"reverse(many)"`
 	}
 
 	params struct {

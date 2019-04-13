@@ -32,7 +32,7 @@ func main() {
 	beego.GlobalSessions, _ = session.NewManager("memory", sessionconf)
 	go beego.GlobalSessions.GC()
 
-	logs.SetLogger("file", `{"filename":"app_log.log"}`)
+	logs.SetLogger("file", `{"filename":"app.log"}`)
 
 	beego.Run()
 }

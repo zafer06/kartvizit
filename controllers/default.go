@@ -64,3 +64,15 @@ func (c *MainController) Logout() {
 	c.DelSession("isLogin")
 	c.Redirect("/", 302)
 }
+
+// Register function
+func (c *MainController) Register() {
+	/*
+		var u models.User
+		u.FirstName = c.GetString("firstName")
+		var lastName = c.GetString("lastName")
+		var email = c.GetString("email")
+		var password = c.GetString("password")
+		var confirmPassword = c.GetString("confirmPassword")
+	*/
+}

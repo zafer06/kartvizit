@@ -28,8 +28,12 @@
                 <fieldset>
                     <legend>{{ i18n .Lang "register"}}:</legend>
                     <p>
-                        <label>{{ i18n .Lang "name" }}:</label>
-                        <input type="text" name="name">
+                        <label>{{ i18n .Lang "firstName" }}:</label>
+                        <input type="text" name="firstName">
+                    </p>
+                    <p>
+                        <label>{{ i18n .Lang "lastName" }}:</label>
+                        <input type="text" name="lastName">
                     </p>
                     <p>
                         <label>{{ i18n .Lang "email" }}:</label>
@@ -38,6 +42,10 @@
                     <p>
                         <label>{{ i18n .Lang "password" }}:</label>
                         <input type="text" name="password">
+                    </p>
+                    <p>
+                        <label>{{ i18n .Lang "confirmPassword" }}:</label>
+                        <input type="text" name="confirmPassword">
                     </p>
                     <p>
                         <input type="submit" value='{{ i18n .Lang "register" }}'>
