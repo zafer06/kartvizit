@@ -15,8 +15,13 @@ type MainController struct {
 
 // Get function
 func (c *MainController) Get() {
-	c.Data["Website"] = "beego.me"
-	c.Data["Email"] = "astaxie@gmail.com"
+	var userName string
+
+	if c.IsLogin {
+		userName = c.GetSession("userName").(string)
+	}
+
+	c.Data["UserName"] = userName
 	c.TplName = "index.tpl"
 }
 
@@ -25,20 +30,15 @@ func (c *MainController) Login() {
 	if c.Ctx.Input.IsPost() {
 		var email = strings.TrimSpace(c.GetString("email"))
 		var password = strings.TrimSpace(c.GetString("password"))
-		logs.Info(email)
-		var flash = beego.NewFlash()
 
-		hash, _ := models.GenerateFromPassword(password)
-		logs.Info("----> ", string(hash))
+		var flash = beego.NewFlash()
 
 		if email != "" && password != "" {
 			user, err := models.GetUserByEmail(email)
-			logs.Info(user)
-			logs.Info(err)
-
 			match, err := models.ComparePasswordAndHash(password, user.Password)
 			if err == nil && match {
 				c.SetSession("isLogin", true)
+				c.SetSession("userName", user.FirstName+" "+user.LastName)
 				c.UserID = user.ID
 				c.Redirect("/", 302)
 			} else {
@@ -67,12 +67,19 @@ func (c *MainController) Logout() {
 
 // Register function
 func (c *MainController) Register() {
-	/*
-		var u models.User
-		u.FirstName = c.GetString("firstName")
-		var lastName = c.GetString("lastName")
-		var email = c.GetString("email")
-		var password = c.GetString("password")
-		var confirmPassword = c.GetString("confirmPassword")
-	*/
+	var u models.User
+	u.FirstName = c.GetString("firstName")
+	u.LastName = c.GetString("lastName")
+	u.Email = c.GetString("email")
+	u.Password, _ = models.GenerateFromPassword(c.GetString("password"))
+
+	var flash = beego.NewFlash()
+	if models.AddNewUser(u) {
+		flash.Success("basarilit")
+	} else {
+		flash.Error("hatali")
+	}
+	flash.Store(&c.Controller)
+
+	c.Redirect("/login", 302)
 }

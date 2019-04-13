@@ -48,6 +48,17 @@ func (u *User) TableName() string {
 	return "users"
 }
 
+// AddNewUser function
+func AddNewUser(user User) bool {
+	o := orm.NewOrm()
+
+	_, err := o.Insert(&user)
+	if err != nil {
+		panic(err)
+	}
+	return true
+}
+
 // GetUserByEmail function
 func GetUserByEmail(email string) (*User, error) {
 	o := orm.NewOrm()
